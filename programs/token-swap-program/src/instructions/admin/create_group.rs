@@ -23,6 +23,7 @@ pub struct CreateGroupAccountConstraints<'info> {
         payer = admin,
         token::mint = input_mint,
         token::authority = swap_group,
+        token::token_program = input_token_program,
         seeds = [b"vault_input", swap_group.key().as_ref()],
         bump,
     )]
@@ -33,6 +34,7 @@ pub struct CreateGroupAccountConstraints<'info> {
         payer = admin,
         token::mint = output_mint,
         token::authority = swap_group,
+        token::token_program = output_token_program,
         seeds = [b"vault_output", swap_group.key().as_ref()],
         bump,
     )]
@@ -41,7 +43,8 @@ pub struct CreateGroupAccountConstraints<'info> {
     pub input_mint: InterfaceAccount<'info, Mint>,
     pub output_mint: InterfaceAccount<'info, Mint>,
 
-    pub token_program: Interface<'info, TokenInterface>,
+    pub input_token_program: Interface<'info, TokenInterface>,
+    pub output_token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
 }
 

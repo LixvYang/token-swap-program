@@ -6,6 +6,7 @@ import {
   getOrCreateAssociatedTokenAccount,
   mintTo,
   getAccount,
+  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { assert } from "chai";
@@ -86,6 +87,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -140,6 +143,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -176,6 +181,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -213,6 +220,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -266,6 +275,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -319,6 +330,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -355,6 +368,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -408,6 +423,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -460,6 +477,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -511,6 +530,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -563,6 +584,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -609,6 +632,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -661,6 +686,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -713,6 +740,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -750,6 +779,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -803,6 +834,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -855,6 +888,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -892,6 +927,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -945,6 +982,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -1006,6 +1045,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -1043,6 +1084,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -1061,6 +1104,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -1118,6 +1163,8 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -1172,6 +1219,8 @@ describe("Decimals Edge Cases", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();

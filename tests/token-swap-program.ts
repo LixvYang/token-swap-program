@@ -6,6 +6,7 @@ import {
   getOrCreateAssociatedTokenAccount,
   mintTo,
   getAccount,
+  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { assert } from "chai";
@@ -91,6 +92,8 @@ describe("token-swap-program", () => {
           outputVault: outputVaultPda,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -129,6 +132,8 @@ describe("token-swap-program", () => {
             outputVault: badOutputVault,
             inputMint: inputMint,
             outputMint: outputMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -163,6 +168,8 @@ describe("token-swap-program", () => {
             outputVault: badOutputVault,
             inputMint: inputMint,
             outputMint: outputMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -288,6 +295,8 @@ describe("token-swap-program", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -327,6 +336,8 @@ describe("token-swap-program", () => {
             userOutputAta: userOutputAta.address,
             inputMint: inputMint,
             outputMint: outputMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();
@@ -367,6 +378,8 @@ describe("token-swap-program", () => {
           userOutputAta: userOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([user])
         .rpc();
@@ -425,6 +438,8 @@ describe("token-swap-program", () => {
             userOutputAta: userOutputAta.address,
             inputMint: inputMint,
             outputMint: outputMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();
@@ -665,6 +680,8 @@ describe("token-swap-program", () => {
           adminOutputAta: adminOutputAta.address,
           inputMint: inputMint,
           outputMint: outputMint,
+          inputTokenProgram: TOKEN_PROGRAM_ID,
+          outputTokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -710,6 +727,8 @@ describe("token-swap-program", () => {
             userOutputAta: userOutputAta.address,
             inputMint: inputMint,
             outputMint: outputMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();

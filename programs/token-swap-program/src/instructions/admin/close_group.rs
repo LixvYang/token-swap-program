@@ -49,9 +49,10 @@ pub struct CloseGroupAccountConstraints<'info> {
     )]
     pub admin_output_ata: InterfaceAccount<'info, TokenAccount>,
 
-    pub input_mint: InterfaceAccount<'info, Mint>,
-    pub output_mint: InterfaceAccount<'info, Mint>,
-    pub token_program: Interface<'info, TokenInterface>,
+    pub input_mint: Box<InterfaceAccount<'info, Mint>>,
+    pub output_mint: Box<InterfaceAccount<'info, Mint>>,
+    pub input_token_program: Interface<'info, TokenInterface>,
+    pub output_token_program: Interface<'info, TokenInterface>,
 }
 
 pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
@@ -68,7 +69,7 @@ pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
             &[&[b"vault_input", group_key.as_ref(), &[input_vault_bump]]];
         transfer_checked(
             CpiContext::new_with_signer(
-                ctx.accounts.token_program.to_account_info(),
+                ctx.accounts.input_token_program.to_account_info(),
                 TransferChecked {
                     from: ctx.accounts.input_vault.to_account_info(),
                     mint: ctx.accounts.input_mint.to_account_info(),
@@ -89,7 +90,7 @@ pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
             &[&[b"vault_output", group_key.as_ref(), &[output_vault_bump]]];
         transfer_checked(
             CpiContext::new_with_signer(
-                ctx.accounts.token_program.to_account_info(),
+                ctx.accounts.output_token_program.to_account_info(),
                 TransferChecked {
                     from: ctx.accounts.output_vault.to_account_info(),
                     mint: ctx.accounts.output_mint.to_account_info(),

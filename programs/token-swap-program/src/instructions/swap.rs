@@ -54,9 +54,10 @@ pub struct SwapAccountConstraints<'info> {
     )]
     pub user_output_ata: InterfaceAccount<'info, TokenAccount>,
 
-    pub input_mint: InterfaceAccount<'info, Mint>,
-    pub output_mint: InterfaceAccount<'info, Mint>,
-    pub token_program: Interface<'info, TokenInterface>,
+    pub input_mint: Box<InterfaceAccount<'info, Mint>>,
+    pub output_mint: Box<InterfaceAccount<'info, Mint>>,
+    pub input_token_program: Interface<'info, TokenInterface>,
+    pub output_token_program: Interface<'info, TokenInterface>,
 }
 
 pub fn swap(ctx: Context<SwapAccountConstraints>, amount_in: u64) -> Result<()> {
@@ -91,7 +92,7 @@ pub fn swap(ctx: Context<SwapAccountConstraints>, amount_in: u64) -> Result<()> 
     // Transfer InputToken from user to input_vault
     transfer_checked(
         CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.input_token_program.to_account_info(),
             TransferChecked {
                 from: ctx.accounts.user_input_ata.to_account_info(),
                 mint: ctx.accounts.input_mint.to_account_info(),
@@ -110,7 +111,7 @@ pub fn swap(ctx: Context<SwapAccountConstraints>, amount_in: u64) -> Result<()> 
 
     transfer_checked(
         CpiContext::new_with_signer(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.output_token_program.to_account_info(),
             TransferChecked {
                 from: ctx.accounts.output_vault.to_account_info(),
                 mint: ctx.accounts.output_mint.to_account_info(),
