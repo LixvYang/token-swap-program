@@ -13,7 +13,7 @@ pub struct CreateGroupAccountConstraints<'info> {
         init,
         payer = admin,
         space = 8 + std::mem::size_of::<SwapGroup>(),
-        seeds = [b"swap_group", admin.key().as_ref(), &group_id],
+        seeds = [b"swap_group".as_ref(), group_id.as_ref()],
         bump,
     )]
     pub swap_group: AccountLoader<'info, SwapGroup>,

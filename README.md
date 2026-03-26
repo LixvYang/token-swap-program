@@ -114,6 +114,7 @@ cargo test -p token-swap-pinocchio --lib
 
 ## Useful Documents
 
+- [PROGRAM_INTERFACE.md](./PROGRAM_INTERFACE.md): current Anchor program instruction and state reference
 - [ANCHOR_VS_PINOCCHIO.md](./ANCHOR_VS_PINOCCHIO.md): implementation-level comparison
 - [PINOCCHIO_MIGRATION.md](./PINOCCHIO_MIGRATION.md): migration notes
 - [CU_BENCHMARK.md](./CU_BENCHMARK.md): compute-unit benchmark notes

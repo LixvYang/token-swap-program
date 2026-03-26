@@ -63,7 +63,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 2);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -110,6 +110,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -169,6 +170,7 @@ describe("Decimals Edge Cases", () => {
       );
 
       const beforeBalance = (await getAccount(provider.connection, userOutputAta.address)).amount;
+      await mintTo(provider.connection, payer.payer, inputMint, userInputAta.address, admin, 500_000_000);
 
       await program.methods
         .swap(new BN(500_000_000)) // 0.5 SOL
@@ -208,6 +210,7 @@ describe("Decimals Edge Cases", () => {
       );
 
       const beforeBalance = (await getAccount(provider.connection, userOutputAta.address)).amount;
+      await mintTo(provider.connection, payer.payer, inputMint, userInputAta.address, admin, 1_000_000);
 
       await program.methods
         .swap(new BN(1_000_000)) // 0.001 SOL
@@ -251,7 +254,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 9);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -298,6 +301,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -356,6 +360,7 @@ describe("Decimals Edge Cases", () => {
       );
 
       const beforeBalance = (await getAccount(provider.connection, userOutputAta.address)).amount;
+      await mintTo(provider.connection, payer.payer, inputMint, userInputAta.address, admin, 100);
 
       await program.methods
         .swap(new BN(100)) // 1 USDC
@@ -399,7 +404,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 9);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -445,6 +450,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -506,7 +512,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 6);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -552,6 +558,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -662,7 +669,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 2);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -708,6 +715,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -810,7 +818,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 6);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -856,6 +864,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -958,7 +967,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 9);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -988,13 +997,7 @@ describe("Decimals Edge Cases", () => {
         .signers([admin])
         .rpc();
 
-      // Deposit both tokens to vault for bidirectional swap
-      const adminInputAta = await getOrCreateAssociatedTokenAccount(
-        provider.connection,
-        payer.payer,
-        inputMint,
-        admin.publicKey
-      );
+      // Seed both vaults so forward and reverse swaps can run independently.
       const adminOutputAta = await getOrCreateAssociatedTokenAccount(
         provider.connection,
         payer.payer,
@@ -1002,7 +1005,7 @@ describe("Decimals Edge Cases", () => {
         admin.publicKey
       );
 
-      await mintTo(provider.connection, payer.payer, inputMint, adminInputAta.address, admin, 1_000_000_000_000);
+      await mintTo(provider.connection, payer.payer, inputMint, inputVaultPda, admin, 1_000_000_000_000);
       await mintTo(provider.connection, payer.payer, outputMint, adminOutputAta.address, admin, 1_000_000_000_000_000);
 
       await program.methods
@@ -1013,6 +1016,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -1070,7 +1074,10 @@ describe("Decimals Edge Cases", () => {
         user.publicKey
       );
 
+      await mintTo(provider.connection, payer.payer, inputMint, userInputAta.address, admin, 1_000_000);
+
       const initialInputBalance = (await getAccount(provider.connection, userInputAta.address)).amount;
+      const initialOutputBalance = (await getAccount(provider.connection, userOutputAta.address)).amount;
 
       // Forward swap: USDC → SOL
       await program.methods
@@ -1090,11 +1097,12 @@ describe("Decimals Edge Cases", () => {
         .signers([user])
         .rpc();
 
-      const solReceived = (await getAccount(provider.connection, userOutputAta.address)).amount;
+      const afterForwardOutputBalance = (await getAccount(provider.connection, userOutputAta.address)).amount;
+      const solReceived = afterForwardOutputBalance - initialOutputBalance;
 
       // Reverse swap: SOL → USDC
       await program.methods
-        .swapReverse(solReceived)
+        .swapReverse(new BN(solReceived.toString()))
         .accounts({
           user: user.publicKey,
           swapGroup: swapGroupPda,
@@ -1140,7 +1148,7 @@ describe("Decimals Edge Cases", () => {
       outputMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 6);
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
 
@@ -1186,6 +1194,7 @@ describe("Decimals Edge Cases", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -1248,7 +1257,7 @@ describe("Decimals Edge Cases", () => {
         usdcMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 6);
 
         [swapGroupPda] = PublicKey.findProgramAddressSync(
-          [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+          [Buffer.from("swap_group"), groupId],
           program.programId
         );
 
@@ -1272,6 +1281,8 @@ describe("Decimals Edge Cases", () => {
             outputVault: outputVaultPda,
             inputMint: solMint,
             outputMint: usdcMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -1292,6 +1303,7 @@ describe("Decimals Edge Cases", () => {
             outputVault: outputVaultPda,
             adminOutputAta: adminOutputAta.address,
             outputMint: usdcMint,
+            tokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -1324,6 +1336,8 @@ describe("Decimals Edge Cases", () => {
             userOutputAta: userOutputAta.address,
             inputMint: solMint,
             outputMint: usdcMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();
@@ -1348,7 +1362,7 @@ describe("Decimals Edge Cases", () => {
         ethMint = await createMint(provider.connection, payer.payer, admin.publicKey, null, 18);
 
         [swapGroupPda] = PublicKey.findProgramAddressSync(
-          [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+          [Buffer.from("swap_group"), groupId],
           program.programId
         );
 
@@ -1372,6 +1386,8 @@ describe("Decimals Edge Cases", () => {
             outputVault: outputVaultPda,
             inputMint: btcMint,
             outputMint: ethMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -1382,17 +1398,18 @@ describe("Decimals Edge Cases", () => {
           ethMint,
           admin.publicKey
         );
-        // Mint large amount for 18 decimals
-        await mintTo(provider.connection, payer.payer, ethMint, adminOutputAta.address, admin, BigInt("1000000000000000000000"));
+        // Keep the deposit within u64 while still covering the test swap.
+        await mintTo(provider.connection, payer.payer, ethMint, adminOutputAta.address, admin, BigInt("10000000000000000000"));
 
         await program.methods
-          .deposit(new BN("1000000000000000000000"))
+          .deposit(new BN("10000000000000000000"))
           .accounts({
             admin: admin.publicKey,
             swapGroup: swapGroupPda,
             outputVault: outputVaultPda,
             adminOutputAta: adminOutputAta.address,
             outputMint: ethMint,
+            tokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();
@@ -1425,6 +1442,8 @@ describe("Decimals Edge Cases", () => {
             userOutputAta: userOutputAta.address,
             inputMint: btcMint,
             outputMint: ethMint,
+            inputTokenProgram: TOKEN_PROGRAM_ID,
+            outputTokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();

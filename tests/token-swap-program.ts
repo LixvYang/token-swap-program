@@ -61,7 +61,7 @@ describe("token-swap-program", () => {
 
     // Derive PDAs
     [swapGroupPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+      [Buffer.from("swap_group"), groupId],
       program.programId
     );
 
@@ -110,7 +110,7 @@ describe("token-swap-program", () => {
     it("should reject zero swap_rate", async () => {
       const badGroupId = Buffer.from([9, 9, 9, 9, 9, 9, 9, 9]);
       const [badSwapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), badGroupId],
+        [Buffer.from("swap_group"), badGroupId],
         program.programId
       );
       const [badInputVault] = PublicKey.findProgramAddressSync(
@@ -146,7 +146,7 @@ describe("token-swap-program", () => {
     it("should reject fee > 10000", async () => {
       const badGroupId = Buffer.from([8, 8, 8, 8, 8, 8, 8, 8]);
       const [badSwapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), badGroupId],
+        [Buffer.from("swap_group"), badGroupId],
         program.programId
       );
       const [badInputVault] = PublicKey.findProgramAddressSync(
@@ -209,6 +209,7 @@ describe("token-swap-program", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -237,6 +238,7 @@ describe("token-swap-program", () => {
             outputVault: outputVaultPda,
             adminOutputAta: userOutputAta.address,
             outputMint: outputMint,
+            tokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([user])
           .rpc();
@@ -506,6 +508,7 @@ describe("token-swap-program", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -533,6 +536,7 @@ describe("token-swap-program", () => {
             outputVault: outputVaultPda,
             adminOutputAta: adminOutputAta.address,
             outputMint: outputMint,
+            tokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([admin])
           .rpc();

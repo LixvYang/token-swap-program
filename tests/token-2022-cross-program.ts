@@ -79,7 +79,7 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
       );
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
       [inputVaultPda] = PublicKey.findProgramAddressSync(
@@ -352,7 +352,7 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
       );
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
       [inputVaultPda] = PublicKey.findProgramAddressSync(
@@ -563,7 +563,7 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
       );
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
       [inputVaultPda] = PublicKey.findProgramAddressSync(
@@ -707,7 +707,20 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
         TOKEN_2022_PROGRAM_ID
       );
 
+      await mintTo(
+        provider.connection,
+        payer.payer,
+        inputMint,
+        userInputAta.address,
+        admin,
+        1_000_000,
+        [],
+        undefined,
+        TOKEN_2022_PROGRAM_ID
+      );
+
       const beforeBalance = (await getAccount(provider.connection, userInputAta.address, undefined, TOKEN_2022_PROGRAM_ID)).amount;
+      const beforeOutputBalance = (await getAccount(provider.connection, userOutputAta.address, undefined, TOKEN_2022_PROGRAM_ID)).amount;
 
       // Forward swap
       await program.methods
@@ -728,10 +741,11 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
         .rpc();
 
       const intermediateBalance = (await getAccount(provider.connection, userOutputAta.address, undefined, TOKEN_2022_PROGRAM_ID)).amount;
+      const forwardReceived = intermediateBalance - beforeOutputBalance;
 
-      // Reverse swap with all output tokens
+      // Reverse only the amount received in this test run.
       await program.methods
-        .swapReverse(new BN(intermediateBalance.toString()))
+        .swapReverse(new BN(forwardReceived.toString()))
         .accounts({
           user: user.publicKey,
           swapGroup: swapGroupPda,
@@ -789,7 +803,7 @@ describe("Token <-> Token-2022 Cross-Program Swaps", () => {
       );
 
       [swapGroupPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+        [Buffer.from("swap_group"), groupId],
         program.programId
       );
       [inputVaultPda] = PublicKey.findProgramAddressSync(

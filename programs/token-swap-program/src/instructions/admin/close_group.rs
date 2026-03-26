@@ -12,7 +12,7 @@ pub struct CloseGroupAccountConstraints<'info> {
     #[account(
         mut,
         has_one = admin,
-        seeds = [b"swap_group", admin.key().as_ref(), &swap_group.load()?.group_id],
+        seeds = [b"swap_group".as_ref(), swap_group.load()?.group_id.as_ref()],
         bump = swap_group.load()?.bump,
     )]
     pub swap_group: AccountLoader<'info, SwapGroup>,
@@ -56,17 +56,15 @@ pub struct CloseGroupAccountConstraints<'info> {
 }
 
 pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
-    let group_key = ctx.accounts.swap_group.key();
-    let (input_vault_bump, output_vault_bump) = {
+    let (group_id, group_bump) = {
         let group = ctx.accounts.swap_group.load()?;
-        (group.input_vault_bump, group.output_vault_bump)
+        (group.group_id, group.bump)
     };
+    let group_signer_seeds: &[&[&[u8]]] = &[&[b"swap_group", &group_id, &[group_bump]]];
 
     // Refund input vault if non-empty
     let input_amount = ctx.accounts.input_vault.amount;
     if input_amount > 0 {
-        let signer_seeds: &[&[&[u8]]] =
-            &[&[b"vault_input", group_key.as_ref(), &[input_vault_bump]]];
         transfer_checked(
             CpiContext::new_with_signer(
                 ctx.accounts.input_token_program.to_account_info(),
@@ -74,9 +72,9 @@ pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
                     from: ctx.accounts.input_vault.to_account_info(),
                     mint: ctx.accounts.input_mint.to_account_info(),
                     to: ctx.accounts.admin_input_ata.to_account_info(),
-                    authority: ctx.accounts.input_vault.to_account_info(),
+                    authority: ctx.accounts.swap_group.to_account_info(),
                 },
-                signer_seeds,
+                group_signer_seeds,
             ),
             input_amount,
             ctx.accounts.input_mint.decimals,
@@ -86,8 +84,6 @@ pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
     // Refund output vault if non-empty
     let output_amount = ctx.accounts.output_vault.amount;
     if output_amount > 0 {
-        let signer_seeds: &[&[&[u8]]] =
-            &[&[b"vault_output", group_key.as_ref(), &[output_vault_bump]]];
         transfer_checked(
             CpiContext::new_with_signer(
                 ctx.accounts.output_token_program.to_account_info(),
@@ -95,9 +91,9 @@ pub fn close_group(ctx: Context<CloseGroupAccountConstraints>) -> Result<()> {
                     from: ctx.accounts.output_vault.to_account_info(),
                     mint: ctx.accounts.output_mint.to_account_info(),
                     to: ctx.accounts.admin_output_ata.to_account_info(),
-                    authority: ctx.accounts.output_vault.to_account_info(),
+                    authority: ctx.accounts.swap_group.to_account_info(),
                 },
-                signer_seeds,
+                group_signer_seeds,
             ),
             output_amount,
             ctx.accounts.output_mint.decimals,

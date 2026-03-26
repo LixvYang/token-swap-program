@@ -12,9 +12,8 @@ pub struct SwapAccountConstraints<'info> {
 
     #[account(
         seeds = [
-            b"swap_group",
-            swap_group.load()?.admin.as_ref(),
-            &swap_group.load()?.group_id,
+            b"swap_group".as_ref(),
+            swap_group.load()?.group_id.as_ref(),
         ],
         bump = swap_group.load()?.bump,
         constraint = swap_group.load()?.input_mint == input_mint.key(),
@@ -105,9 +104,11 @@ pub fn swap(ctx: Context<SwapAccountConstraints>, amount_in: u64) -> Result<()> 
     )?;
 
     // Transfer OutputToken from output_vault to user (PDA-signed)
-    let group_key = ctx.accounts.swap_group.key();
-    let output_vault_bump = ctx.accounts.swap_group.load()?.output_vault_bump;
-    let signer_seeds: &[&[&[u8]]] = &[&[b"vault_output", group_key.as_ref(), &[output_vault_bump]]];
+    let (group_id, bump) = {
+        let group = ctx.accounts.swap_group.load()?;
+        (group.group_id, group.bump)
+    };
+    let signer_seeds: &[&[&[u8]]] = &[&[b"swap_group", &group_id, &[bump]]];
 
     transfer_checked(
         CpiContext::new_with_signer(
@@ -116,7 +117,7 @@ pub fn swap(ctx: Context<SwapAccountConstraints>, amount_in: u64) -> Result<()> 
                 from: ctx.accounts.output_vault.to_account_info(),
                 mint: ctx.accounts.output_mint.to_account_info(),
                 to: ctx.accounts.user_output_ata.to_account_info(),
-                authority: ctx.accounts.output_vault.to_account_info(),
+                authority: ctx.accounts.swap_group.to_account_info(),
             },
             signer_seeds,
         ),

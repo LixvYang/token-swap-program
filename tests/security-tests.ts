@@ -71,7 +71,7 @@ describe("Security Tests", () => {
 
     const groupId = Buffer.from(opts.groupIdBytes);
     const [swapGroupPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+      [Buffer.from("swap_group"), groupId],
       program.programId
     );
     const [inputVaultPda] = PublicKey.findProgramAddressSync(
@@ -119,6 +119,7 @@ describe("Security Tests", () => {
           outputVault: outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();
@@ -617,6 +618,7 @@ describe("Security Tests", () => {
             outputVault: setup.outputVaultPda,
             adminOutputAta: attackerOutputAta.address,
             outputMint: setup.outputMint,
+            tokenProgram: TOKEN_PROGRAM_ID,
           })
           .signers([attacker])
           .rpc();
@@ -866,6 +868,7 @@ describe("Security Tests", () => {
           outputVault: setup.outputVaultPda,
           adminOutputAta: adminOutputAta.address,
           outputMint: setup.outputMint,
+          tokenProgram: TOKEN_PROGRAM_ID,
         })
         .signers([admin])
         .rpc();

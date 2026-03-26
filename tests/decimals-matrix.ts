@@ -53,7 +53,7 @@ describe("Decimals Matrix Tests", () => {
         let swapGroupPda: PublicKey;
         let inputVaultPda: PublicKey;
         let outputVaultPda: PublicKey;
-        const groupId = Buffer.from([inputDecimals, outputDecimals, 0, 0, 0, 0, 0, 0]);
+        const groupId = Buffer.from([77, inputDecimals, outputDecimals, 0, 0, 0, 0, 0]);
 
         before(async () => {
           inputMint = await createMint(
@@ -73,7 +73,7 @@ describe("Decimals Matrix Tests", () => {
           );
 
           [swapGroupPda] = PublicKey.findProgramAddressSync(
-            [Buffer.from("swap_group"), admin.publicKey.toBuffer(), groupId],
+            [Buffer.from("swap_group"), groupId],
             program.programId
           );
 
@@ -130,6 +130,7 @@ describe("Decimals Matrix Tests", () => {
               outputVault: outputVaultPda,
               adminOutputAta: adminOutputAta.address,
               outputMint: outputMint,
+              tokenProgram: TOKEN_PROGRAM_ID,
             })
             .signers([admin])
             .rpc();

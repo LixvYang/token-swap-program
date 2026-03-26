@@ -9,7 +9,7 @@ pub struct UpdateConfigAccountConstraints<'info> {
     #[account(
         mut,
         has_one = admin,
-        seeds = [b"swap_group", admin.key().as_ref(), &swap_group.load()?.group_id],
+        seeds = [b"swap_group".as_ref(), swap_group.load()?.group_id.as_ref()],
         bump = swap_group.load()?.bump,
     )]
     pub swap_group: AccountLoader<'info, SwapGroup>,

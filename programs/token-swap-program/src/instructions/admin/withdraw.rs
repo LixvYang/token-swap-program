@@ -12,7 +12,7 @@ pub struct WithdrawAccountConstraints<'info> {
     #[account(
         mut,
         has_one = admin,
-        seeds = [b"swap_group", admin.key().as_ref(), &swap_group.load()?.group_id],
+        seeds = [b"swap_group".as_ref(), swap_group.load()?.group_id.as_ref()],
         bump = swap_group.load()?.bump,
     )]
     pub swap_group: AccountLoader<'info, SwapGroup>,
@@ -43,9 +43,11 @@ pub fn withdraw(ctx: Context<WithdrawAccountConstraints>, amount: u64) -> Result
         TokenSwapError::InsufficientVaultBalance
     );
 
-    let group_key = ctx.accounts.swap_group.key();
-    let bump = ctx.accounts.swap_group.load()?.output_vault_bump;
-    let signer_seeds: &[&[&[u8]]] = &[&[b"vault_output", group_key.as_ref(), &[bump]]];
+    let (group_id, bump) = {
+        let group = ctx.accounts.swap_group.load()?;
+        (group.group_id, group.bump)
+    };
+    let signer_seeds: &[&[&[u8]]] = &[&[b"swap_group", &group_id, &[bump]]];
 
     let decimals = ctx.accounts.output_mint.decimals;
 
@@ -56,7 +58,7 @@ pub fn withdraw(ctx: Context<WithdrawAccountConstraints>, amount: u64) -> Result
                 from: ctx.accounts.output_vault.to_account_info(),
                 mint: ctx.accounts.output_mint.to_account_info(),
                 to: ctx.accounts.admin_output_ata.to_account_info(),
-                authority: ctx.accounts.output_vault.to_account_info(),
+                authority: ctx.accounts.swap_group.to_account_info(),
             },
             signer_seeds,
         ),
