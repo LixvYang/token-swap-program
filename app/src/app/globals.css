@@ -1,0 +1,425 @@
+:root {
+  --bg: oklch(0.98 0.012 98);
+  --bg-accent: oklch(0.93 0.04 92);
+  --surface: color-mix(in oklch, white 92%, var(--bg-accent));
+  --surface-strong: oklch(0.2 0.03 240);
+  --card: oklch(0.995 0.004 100);
+  --line: oklch(0.86 0.02 88);
+  --text: oklch(0.24 0.03 258);
+  --text-soft: oklch(0.48 0.02 252);
+  --accent: oklch(0.68 0.17 46);
+  --accent-soft: oklch(0.93 0.07 76);
+  --success: oklch(0.69 0.15 149);
+  --warning: oklch(0.76 0.16 84);
+  --danger: oklch(0.64 0.2 24);
+  --shadow: 0 24px 80px color-mix(in srgb, black 12%, transparent);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, color-mix(in oklch, var(--accent-soft) 72%, white) 0%, transparent 28%),
+    radial-gradient(circle at bottom right, color-mix(in oklch, var(--bg-accent) 80%, white) 0%, transparent 32%),
+    var(--bg);
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page-shell {
+  width: min(1360px, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 1.2rem 0 4rem;
+}
+
+.app-shell {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--card) 78%, var(--accent-soft)) 0%, color-mix(in oklch, white 85%, var(--bg-accent)) 100%);
+  border: 1px solid color-mix(in oklch, var(--line) 72%, white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -48% auto;
+  width: 34rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in oklch, var(--accent) 22%, transparent) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  padding: 0.4rem 0.72rem;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--accent-soft) 70%, white);
+  color: color-mix(in oklch, var(--accent) 62%, var(--text));
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hero-title,
+.section-title,
+.panel-title {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.hero-title {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  line-height: 0.94;
+}
+
+.hero-copy,
+.muted,
+.help-copy {
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+.hero-actions,
+.cluster-row,
+.detail-grid,
+.group-grid,
+.panel-grid,
+.stack,
+.button-row,
+.inline-fields,
+.token-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.cluster-row {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.group-grid,
+.detail-grid,
+.panel-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.inline-fields {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.token-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.panel,
+.card {
+  background: color-mix(in oklch, var(--card) 94%, white);
+  border: 1px solid color-mix(in oklch, var(--line) 80%, white);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+}
+
+.active-card {
+  border-color: color-mix(in oklch, var(--accent) 40%, white);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.panel {
+  box-shadow: 0 18px 50px color-mix(in srgb, black 8%, transparent);
+}
+
+.ghost-panel {
+  min-height: 10rem;
+}
+
+.panel-title,
+.section-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.meta-row,
+.data-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.data-list {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.data-item {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.label {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.value {
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.strong {
+  font-weight: 700;
+}
+
+.status-pill,
+.tag,
+.cluster-pill {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pill.active {
+  background: color-mix(in oklch, var(--success) 15%, white);
+  color: color-mix(in oklch, var(--success) 65%, black);
+}
+
+.status-pill.paused {
+  background: color-mix(in oklch, var(--warning) 20%, white);
+  color: color-mix(in oklch, var(--warning) 60%, black);
+}
+
+.status-pill.closed {
+  background: color-mix(in oklch, var(--danger) 18%, white);
+  color: color-mix(in oklch, var(--danger) 58%, black);
+}
+
+.tag,
+.cluster-pill {
+  background: color-mix(in oklch, var(--bg-accent) 72%, white);
+  color: color-mix(in oklch, var(--text) 80%, var(--accent));
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in oklch, var(--line) 86%, white);
+  background: white;
+  color: var(--text);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: 2px solid color-mix(in oklch, var(--accent) 38%, transparent);
+  border-color: color-mix(in oklch, var(--accent) 38%, var(--line));
+}
+
+.textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.button-row {
+  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  align-items: start;
+}
+
+.button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.84rem 1.1rem;
+  background: var(--surface-strong);
+  color: white;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.button.secondary {
+  background: color-mix(in oklch, var(--surface) 65%, white);
+  color: var(--text);
+  border: 1px solid color-mix(in oklch, var(--line) 80%, white);
+}
+
+.button.warning {
+  background: color-mix(in oklch, var(--warning) 60%, var(--text));
+}
+
+.button.danger {
+  background: color-mix(in oklch, var(--danger) 78%, var(--surface-strong));
+}
+
+.button.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px dashed color-mix(in oklch, var(--line) 94%, white);
+}
+
+.wallet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.connector-button {
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklch, var(--line) 76%, white);
+  background: white;
+  padding: 0.72rem 0.9rem;
+}
+
+.help-block,
+.notice,
+.warning-box,
+.error-box,
+.success-box {
+  padding: 0.95rem 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.help-block,
+.notice {
+  background: color-mix(in oklch, var(--bg-accent) 45%, white);
+  border: 1px solid color-mix(in oklch, var(--line) 75%, white);
+}
+
+.warning-box {
+  background: color-mix(in oklch, var(--warning) 18%, white);
+  border: 1px solid color-mix(in oklch, var(--warning) 42%, white);
+}
+
+.error-box {
+  background: color-mix(in oklch, var(--danger) 14%, white);
+  border: 1px solid color-mix(in oklch, var(--danger) 38%, white);
+}
+
+.success-box {
+  background: color-mix(in oklch, var(--success) 16%, white);
+  border: 1px solid color-mix(in oklch, var(--success) 34%, white);
+}
+
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links,
+.inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.nav-link {
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+}
+
+.nav-link:hover {
+  background: color-mix(in oklch, var(--accent-soft) 56%, white);
+}
+
+.skeleton-line {
+  height: 0.95rem;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(241, 224, 198, 0.85), rgba(255, 255, 255, 0.5));
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  max-width: 18rem;
+}
+
+.skeleton-short {
+  max-width: 10rem;
+}
+
+.list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell {
+    width: min(100vw - 1rem, 100%);
+    padding-top: 0.75rem;
+  }
+
+  .hero-title {
+    max-width: 11ch;
+  }
+}

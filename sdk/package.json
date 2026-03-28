@@ -1,0 +1,39 @@
+{
+  "name": "@rebetxin/token-swap-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend-friendly TypeScript SDK for the token-swap-program Anchor IDL",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:localnet:admin": "npm run build && node ./scripts/localnet-admin-lifecycle.mjs",
+    "test:localnet:user": "npm run build && node ./scripts/localnet-user-flow.mjs",
+    "test:localnet:token2022": "npm run build && node ./scripts/localnet-token2022-flow.mjs",
+    "test:localnet:all": "npm run build && node ./scripts/localnet-run-all.mjs"
+  },
+  "peerDependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4"
+  },
+  "dependencies": {
+    "bn.js": "^5.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
